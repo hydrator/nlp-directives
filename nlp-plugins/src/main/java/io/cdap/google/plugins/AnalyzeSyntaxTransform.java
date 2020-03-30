@@ -126,7 +126,7 @@ public class AnalyzeSyntaxTransform extends NLPTransform {
                     Schema.Field.of("content",
                                     Schema.of(Schema.Type.STRING)),
                     Schema.Field.of("beginOffset",
-                                    Schema.of(Schema.Type.LONG)));
+                                    Schema.of(Schema.Type.INT)));
 
   private static final Schema SCHEMA =
     Schema.recordOf(AnalyzeSyntaxTransform.class.getSimpleName(),

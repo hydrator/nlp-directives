@@ -1,0 +1,128 @@
+{
+    "name": "Analyze_Using_Wrangler_Directives",
+    "description": "Data Pipeline Application",
+    "artifact": {
+        "name": "cdap-data-pipeline",
+        "version": "6.1.1",
+        "scope": "SYSTEM"
+    },
+    "config": {
+        "resources": {
+            "memoryMB": 2048,
+            "virtualCores": 1
+        },
+        "driverResources": {
+            "memoryMB": 2048,
+            "virtualCores": 1
+        },
+        "connections": [
+            {
+                "from": "File",
+                "to": "Wrangler"
+            },
+            {
+                "from": "Wrangler",
+                "to": "File2"
+            }
+        ],
+        "comments": [],
+        "postActions": [],
+        "properties": {},
+        "processTimingEnabled": true,
+        "stageLoggingEnabled": false,
+        "stages": [
+            {
+                "name": "File",
+                "plugin": {
+                    "name": "File",
+                    "type": "batchsource",
+                    "label": "File",
+                    "artifact": {
+                        "name": "core-plugins",
+                        "version": "2.3.4",
+                        "scope": "SYSTEM"
+                    },
+                    "properties": {
+                        "format": "text",
+                        "filenameOnly": "false",
+                        "recursive": "false",
+                        "ignoreNonExistingFolders": "false",
+                        "schema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"offset\",\"type\":\"long\"},{\"name\":\"body\",\"type\":\"string\"}]}",
+                        "referenceName": "SentimentSourceFile",
+                        "path": "${INPUT_FILE}"
+                    }
+                },
+                "outputSchema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"offset\",\"type\":\"long\"},{\"name\":\"body\",\"type\":\"string\"}]}",
+                "type": "batchsource",
+                "label": "File",
+                "icon": "icon-file"
+            },
+            {
+                "name": "Wrangler",
+                "plugin": {
+                    "name": "Wrangler",
+                    "type": "transform",
+                    "label": "Wrangler",
+                    "artifact": {
+                        "name": "wrangler-transform",
+                        "version": "4.1.4",
+                        "scope": "SYSTEM"
+                    },
+                    "properties": {
+                        "field": "body",
+                        "precondition": "false",
+                        "threshold": "1",
+                        "schema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"body\",\"type\":\"string\"},{\"name\":\"result\",\"type\":\"string\"}]}",
+                        "directives": "${RECEPIE}",
+                        "udd": "nlp-analyze-entities,nlp-analyze-sentiment,nlp-analyze-entity-sentiment,nlp-analyze-syntax,nlp-anotate-text,nlp-classify-text"
+                    }
+                },
+                "outputSchema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"body\",\"type\":\"string\"},{\"name\":\"result\",\"type\":\"string\"}]}",
+                "inputSchema": [
+                    {
+                        "name": "File",
+                        "schema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"offset\",\"type\":\"long\"},{\"name\":\"body\",\"type\":\"string\"}]}"
+                    }
+                ],
+                "type": "transform",
+                "label": "Wrangler",
+                "icon": "icon-DataPreparation"
+            },
+            {
+                "name": "File2",
+                "plugin": {
+                    "name": "File",
+                    "type": "batchsink",
+                    "label": "File2",
+                    "artifact": {
+                        "name": "core-plugins",
+                        "version": "2.3.4",
+                        "scope": "SYSTEM"
+                    },
+                    "properties": {
+                        "suffix": "yyyy-MM-dd-HH-mm",
+                        "format": "json",
+                        "schema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"body\",\"type\":\"string\"},{\"name\":\"result\",\"type\":\"string\"}]}",
+                        "referenceName": "SentimentResults",
+                        "path": "${OUTPUT_FILE}"
+                    }
+                },
+                "outputSchema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"body\",\"type\":\"string\"},{\"name\":\"result\",\"type\":\"string\"}]}",
+                "inputSchema": [
+                    {
+                        "name": "Wrangler",
+                        "schema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"body\",\"type\":\"string\"},{\"name\":\"result\",\"type\":\"string\"}]}"
+                    }
+                ],
+                "type": "batchsink",
+                "label": "File2",
+                "icon": "icon-file"
+            }
+        ],
+        "schedule": "0 * * * *",
+        "engine": "spark",
+        "numOfRecordsPreview": 100,
+        "description": "Data Pipeline Application",
+        "maxConcurrentRuns": 1
+    }
+}

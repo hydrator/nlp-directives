@@ -167,8 +167,8 @@ public class AnotateTextTransform extends NLPTransform {
   private static final Schema SCHEMA =
     Schema.recordOf(AnotateTextTransform.class.getSimpleName(),
                     Schema.Field.of("language", Schema.of(Schema.Type.STRING)),
-                    Schema.Field.of("score", Schema.nullableOf(Schema.of(Schema.Type.DOUBLE))),
-                    Schema.Field.of("magnitude", Schema.nullableOf(Schema.of(Schema.Type.DOUBLE))),
+                    Schema.Field.of("score", Schema.nullableOf(Schema.of(Schema.Type.FLOAT))),
+                    Schema.Field.of("magnitude", Schema.nullableOf(Schema.of(Schema.Type.FLOAT))),
                     Schema.Field.of("tokens", Schema.arrayOf(TOKEN)),
                     Schema.Field.of("sentences", Schema.arrayOf(SENTENCE_SCORED)),
                     Schema.Field.of("entities", Schema.arrayOf(ENTITY_SCORED)),

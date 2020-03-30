@@ -29,7 +29,7 @@
   <name>NLP Directives</name>
 
   <properties>
-    <wrangler.version>4.1.0-SNAPSHOT</wrangler.version>
+    <wrangler.version>4.1.4</wrangler.version>
   </properties>
 
   <dependencies>

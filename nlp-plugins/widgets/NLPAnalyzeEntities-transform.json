@@ -2,7 +2,7 @@
   "metadata": {
     "spec-version": "1.6"
   },
-  "display-name" : "NLP Analyze Entities",
+  "display-name": "NLP Analyze Entities",
   "configuration-groups": [
     {
       "label": "General",
@@ -55,13 +55,13 @@
       ]
     },
     {
-      "label" : "Credentials",
-      "properties" : [
+      "label": "Credentials",
+      "properties": [
         {
           "widget-type": "textbox",
           "label": "Service Account File Path",
           "name": "serviceFilePath",
-          "widget-attributes" : {
+          "widget-attributes": {
             "default": "auto-detect"
           }
         }
@@ -75,7 +75,76 @@
       "label": "schema",
       "widget-type": "non-editable-schema-editor",
       "schema": {
+
+          "type": "record",
+          "name": "etlSchemaBody",
+          "fields": [
+            {
+              "name": "language",
+              "type": "string"
+            },
+            {
+              "name": "entities",
+              "type": {
+                "type": "array",
+                "items": {
+                  "type": "record",
+                  "name": "a104110c0cf9043c1891d88cbe98182ee",
+                  "fields": [
+                    {
+                      "name": "name",
+                      "type": "string"
+                    },
+                    {
+                      "name": "type",
+                      "type": "string"
+                    },
+                    {
+                      "name": "metadata",
+                      "type": {
+                        "type": "map",
+                        "keys": "string",
+                        "values": "string"
+                      }
+                    },
+                    {
+                      "name": "salience",
+                      "type": "float"
+                    },
+                    {
+                      "name": "mentions",
+                      "type": {
+                        "type": "array",
+                        "items": {
+                          "type": "record",
+                          "name": "a3729b95c10904533bdac6a07231a7d60",
+                          "fields": [
+                            {
+                              "name": "content",
+                              "type": "string"
+                            },
+                            {
+                              "name": "beginoffset",
+                              "type": "int"
+                            },
+                            {
+                              "name": "type",
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
       }
-    }
+
   ]
 }

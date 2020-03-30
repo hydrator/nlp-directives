@@ -78,8 +78,8 @@ public class AnalyzeSentimentTransform extends NLPTransform {
   private static final Schema SCHEMA =
     Schema.recordOf(AnalyzeSentimentTransform.class.getSimpleName(),
                     Schema.Field.of("language", Schema.of(Schema.Type.STRING)),
-                    Schema.Field.of("score", Schema.nullableOf(Schema.of(Schema.Type.DOUBLE))),
-                    Schema.Field.of("magnitude", Schema.nullableOf(Schema.of(Schema.Type.DOUBLE))),
+                    Schema.Field.of("score", Schema.nullableOf(Schema.of(Schema.Type.FLOAT))),
+                    Schema.Field.of("magnitude", Schema.nullableOf(Schema.of(Schema.Type.FLOAT))),
                     Schema.Field.of("sentences", Schema.arrayOf(SENTENCE_SCORED)));
 
   public AnalyzeSentimentTransform(NLPConfig config) {

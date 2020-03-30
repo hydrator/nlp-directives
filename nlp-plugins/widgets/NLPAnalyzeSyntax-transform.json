@@ -2,7 +2,7 @@
   "metadata": {
     "spec-version": "1.6"
   },
-  "display-name" : "NLP Analyze Syntax",
+  "display-name": "NLP Analyze Syntax",
   "configuration-groups": [
     {
       "label": "General",
@@ -55,13 +55,13 @@
       ]
     },
     {
-      "label" : "Credentials",
-      "properties" : [
+      "label": "Credentials",
+      "properties": [
         {
           "widget-type": "textbox",
           "label": "Service Account File Path",
           "name": "serviceFilePath",
-          "widget-attributes" : {
+          "widget-attributes": {
             "default": "auto-detect"
           }
         }
@@ -75,6 +75,114 @@
       "label": "schema",
       "widget-type": "non-editable-schema-editor",
       "schema": {
+        "type": "record",
+        "name": "etlSchemaBody",
+        "fields": [
+          {
+            "name": "language",
+            "type": "string"
+          },
+          {
+            "name": "sentences",
+            "type": {
+              "type": "array",
+              "items": {
+                "type": "record",
+                "name": "a15952526fd4b44g56g3e27a225c87",
+                "fields": [
+                  {
+                    "name": "content",
+                    "type": "string"
+                  },
+                  {
+                    "name": "beginOffset",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "tokens",
+            "type": {
+              "type": "array",
+              "items": {
+                "type": "record",
+                "name": "ad1de771cb81gwry5ha1a3b7a90771cc",
+                "fields": [
+                  {
+                    "name": "content",
+                    "type": "string"
+                  },
+                  {
+                    "name": "beginOffset",
+                    "type": "int"
+                  },
+                  {
+                    "name": "tag",
+                    "type": "string"
+                  },
+                  {
+                    "name": "aspect",
+                    "type": "string"
+                  },
+                  {
+                    "name": "case",
+                    "type": "string"
+                  },
+                  {
+                    "name": "speechForm",
+                    "type": "string"
+                  },
+                  {
+                    "name": "gender",
+                    "type": "string"
+                  },
+                  {
+                    "name": "mood",
+                    "type": "string"
+                  },
+                  {
+                    "name": "number",
+                    "type": "string"
+                  },
+                  {
+                    "name": "person",
+                    "type": "string"
+                  },
+                  {
+                    "name": "proper",
+                    "type": "string"
+                  },
+                  {
+                    "name": "reciprocity",
+                    "type": "string"
+                  },
+                  {
+                    "name": "tense",
+                    "type": "string"
+                  },
+                  {
+                    "name": "voice",
+                    "type": "string"
+                  },
+                  {
+                    "name": "headTokenIndex",
+                    "type": "int"
+                  },
+                  {
+                    "name": "label",
+                    "type": "int"
+                  },
+                  {
+                    "name": "lemma",
+                    "type": "string"
+                  }
+                ]
+              }
+            }
+          }
+        ]
       }
     }
   ]

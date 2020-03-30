@@ -75,6 +75,56 @@
       "label": "schema",
       "widget-type": "non-editable-schema-editor",
       "schema": {
+
+        "type": "record",
+        "name": "etlSchemaBody",
+        "fields": [
+          {
+            "name": "language",
+            "type": "string"
+          },
+          {
+            "name": "score",
+            "type": "float"
+          },
+          {
+            "name": "magnitude",
+            "type": "float"
+          },
+          {
+            "name": "sentences",
+            "type": {
+              "type": "array",
+              "items": {
+                "type": "record",
+                "name": "a22dd4113f2fd4cbabc066409acd40716",
+                "fields": [
+                  {
+                    "name": "content",
+                    "type": "string"
+                  },
+                  {
+                    "name": "beginOffset",
+                    "type": "int"
+                  },
+                  {
+                    "name": "score",
+                    "type": "float"
+                  },
+                  {
+                    "name": "magnitude",
+                    "type": "float"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+
+
+
+
+
       }
     }
   ]

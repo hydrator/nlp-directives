@@ -2,7 +2,7 @@
   "metadata": {
     "spec-version": "1.6"
   },
-  "display-name" : "NLP Analyze Entity Sentiment",
+  "display-name": "NLP Analyze Entity Sentiment",
   "configuration-groups": [
     {
       "label": "General",
@@ -55,13 +55,13 @@
       ]
     },
     {
-      "label" : "Credentials",
-      "properties" : [
+      "label": "Credentials",
+      "properties": [
         {
           "widget-type": "textbox",
           "label": "Service Account File Path",
           "name": "serviceFilePath",
-          "widget-attributes" : {
+          "widget-attributes": {
             "default": "auto-detect"
           }
         }
@@ -75,6 +75,86 @@
       "label": "schema",
       "widget-type": "non-editable-schema-editor",
       "schema": {
+        "type": "record",
+        "name": "etlSchemaBody",
+        "fields": [
+          {
+            "name": "language",
+            "type": "string"
+          },
+          {
+            "name": "entities",
+            "type": {
+              "type": "array",
+              "items": {
+                "type": "record",
+                "name": "a179cf7986b4c4b3796d7acb6f9c9604b",
+                "fields": [
+                  {
+                    "name": "name",
+                    "type": "string"
+                  },
+                  {
+                    "name": "type",
+                    "type": "string"
+                  },
+                  {
+                    "name": "metadata",
+                    "type": {
+                      "type": "map",
+                      "keys": "string",
+                      "values": "string"
+                    }
+                  },
+                  {
+                    "name": "salience",
+                    "type": "float"
+                  },
+                  {
+                    "name": "magnitude",
+                    "type": "float"
+                  },
+                  {
+                    "name": "score",
+                    "type": "float"
+                  },
+                  {
+                    "name": "mentions",
+                    "type": {
+                      "type": "array",
+                      "items": {
+                        "type": "record",
+                        "name": "a2231bb1471ad402c9a406c231fa764da",
+                        "fields": [
+                          {
+                            "name": "content",
+                            "type": "string"
+                          },
+                          {
+                            "name": "beginOffset",
+                            "type": "long"
+                          },
+                          {
+                            "name": "type",
+                            "type": "string"
+                          },
+                          {
+                            "name": "magnitude",
+                            "type": "float"
+                          },
+                          {
+                            "name": "score",
+                            "type": "float"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
       }
     }
   ]

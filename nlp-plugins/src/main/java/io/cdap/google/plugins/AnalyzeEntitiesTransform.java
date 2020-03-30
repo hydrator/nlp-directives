@@ -102,7 +102,7 @@ public class AnalyzeEntitiesTransform extends NLPTransform {
                     Schema.Field.of("content",
                                     Schema.of(Schema.Type.STRING)),
                     Schema.Field.of("beginOffset",
-                                    Schema.of(Schema.Type.LONG)),
+                                    Schema.of(Schema.Type.INT)),
                     Schema.Field.of("type", Schema.nullableOf(Schema.of(Schema.Type.STRING))));
 
   private static final Schema ENTITY =
@@ -111,7 +111,7 @@ public class AnalyzeEntitiesTransform extends NLPTransform {
                     Schema.Field.of("type", Schema.of(Schema.Type.STRING)),
                     Schema.Field.of("metadata", Schema.nullableOf(Schema.mapOf(Schema.of(Schema.Type.STRING),
                                                                                Schema.of(Schema.Type.STRING)))),
-                    Schema.Field.of("salience", Schema.nullableOf(Schema.of(Schema.Type.DOUBLE))),
+                    Schema.Field.of("salience", Schema.nullableOf(Schema.of(Schema.Type.FLOAT))),
                     Schema.Field.of("mentions", Schema.arrayOf(MENTION)));
 
   private static final Schema SCHEMA =

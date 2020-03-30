@@ -1,0 +1,171 @@
+{
+    "name": "AnalyzeSyntax",
+    "description": "Data Pipeline Application",
+    "artifact": {
+        "name": "cdap-data-pipeline",
+        "version": "6.1.1",
+        "scope": "SYSTEM"
+    },
+    "config": {
+        "resources": {
+            "memoryMB": 2048,
+            "virtualCores": 1
+        },
+        "driverResources": {
+            "memoryMB": 2048,
+            "virtualCores": 1
+        },
+        "connections": [
+            {
+                "from": "File",
+                "to": "NLP Analyze Syntax"
+            },
+            {
+                "from": "NLP Analyze Syntax",
+                "to": "JSONFormatter"
+            },
+            {
+                "from": "JSONFormatter",
+                "to": "File2"
+            }
+        ],
+        "comments": [],
+        "postActions": [],
+        "properties": {},
+        "processTimingEnabled": true,
+        "stageLoggingEnabled": false,
+        "stages": [
+            {
+                "name": "File",
+                "plugin": {
+                    "name": "File",
+                    "type": "batchsource",
+                    "label": "File",
+                    "artifact": {
+                        "name": "core-plugins",
+                        "version": "2.3.4",
+                        "scope": "SYSTEM"
+                    },
+                    "properties": {
+                        "format": "text",
+                        "filenameOnly": "false",
+                        "recursive": "false",
+                        "ignoreNonExistingFolders": "false",
+                        "schema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"offset\",\"type\":\"long\"},{\"name\":\"body\",\"type\":\"string\"}]}",
+                        "referenceName": "SentimentSourceFile",
+                        "path": "${INPUT_FILE}"
+                    }
+                },
+                "outputSchema": [
+                    {
+                        "name": "etlSchemaBody",
+                        "schema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"offset\",\"type\":\"long\"},{\"name\":\"body\",\"type\":\"string\"}]}"
+                    }
+                ],
+                "type": "batchsource",
+                "label": "File",
+                "icon": "icon-file"
+            },
+            {
+                "name": "NLP Analyze Syntax",
+                "plugin": {
+                    "name": "NLPAnalyzeSyntax",
+                    "type": "transform",
+                    "label": "NLP Analyze Syntax",
+                    "artifact": {
+                        "name": "nlp-plugins",
+                        "version": "1.0.0-SNAPSHOT",
+                        "scope": "USER"
+                    },
+                    "properties": {
+                        "errorHandling": "stopOnError",
+                        "serviceFilePath": "${GCS_SERVICE_ACCOUNT}",
+                        "encoding": "${ENCODING}",
+                        "sourceField": "body"
+                    }
+                },
+                "outputSchema": [
+                    {
+                        "name": "etlSchemaBody",
+                        "schema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"language\",\"type\":\"string\"},{\"name\":\"sentences\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"a15952526fd4b44g56g3e27a225c87\",\"fields\":[{\"name\":\"content\",\"type\":\"string\"},{\"name\":\"beginOffset\",\"type\":\"int\"}]}}},{\"name\":\"tokens\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"ad1de771cb81gwry5ha1a3b7a90771cc\",\"fields\":[{\"name\":\"content\",\"type\":\"string\"},{\"name\":\"beginOffset\",\"type\":\"int\"},{\"name\":\"tag\",\"type\":\"string\"},{\"name\":\"aspect\",\"type\":\"string\"},{\"name\":\"case\",\"type\":\"string\"},{\"name\":\"speechForm\",\"type\":\"string\"},{\"name\":\"gender\",\"type\":\"string\"},{\"name\":\"mood\",\"type\":\"string\"},{\"name\":\"number\",\"type\":\"string\"},{\"name\":\"person\",\"type\":\"string\"},{\"name\":\"proper\",\"type\":\"string\"},{\"name\":\"reciprocity\",\"type\":\"string\"},{\"name\":\"tense\",\"type\":\"string\"},{\"name\":\"voice\",\"type\":\"string\"},{\"name\":\"headTokenIndex\",\"type\":\"int\"},{\"name\":\"label\",\"type\":\"int\"},{\"name\":\"lemma\",\"type\":\"string\"}]}}}]}"
+                    }
+                ],
+                "inputSchema": [
+                    {
+                        "name": "File",
+                        "schema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"offset\",\"type\":\"long\"},{\"name\":\"body\",\"type\":\"string\"}]}"
+                    }
+                ],
+                "type": "transform",
+                "label": "NLP Analyze Syntax",
+                "icon": "fa-plug"
+            },
+            {
+                "name": "JSONFormatter",
+                "plugin": {
+                    "name": "JSONFormatter",
+                    "type": "transform",
+                    "label": "JSONFormatter",
+                    "artifact": {
+                        "name": "transform-plugins",
+                        "version": "2.3.4",
+                        "scope": "SYSTEM"
+                    },
+                    "properties": {
+                        "schema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"json\",\"type\":\"string\"}]}"
+                    }
+                },
+                "outputSchema": [
+                    {
+                        "name": "etlSchemaBody",
+                        "schema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"json\",\"type\":\"string\"}]}"
+                    }
+                ],
+                "inputSchema": [
+                    {
+                        "name": "NLP Analyze Syntax",
+                        "schema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"language\",\"type\":\"string\"},{\"name\":\"sentences\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"a15952526fd4b44g56g3e27a225c87\",\"fields\":[{\"name\":\"content\",\"type\":\"string\"},{\"name\":\"beginOffset\",\"type\":\"int\"}]}}},{\"name\":\"tokens\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"ad1de771cb81gwry5ha1a3b7a90771cc\",\"fields\":[{\"name\":\"content\",\"type\":\"string\"},{\"name\":\"beginOffset\",\"type\":\"int\"},{\"name\":\"tag\",\"type\":\"string\"},{\"name\":\"aspect\",\"type\":\"string\"},{\"name\":\"case\",\"type\":\"string\"},{\"name\":\"speechForm\",\"type\":\"string\"},{\"name\":\"gender\",\"type\":\"string\"},{\"name\":\"mood\",\"type\":\"string\"},{\"name\":\"number\",\"type\":\"string\"},{\"name\":\"person\",\"type\":\"string\"},{\"name\":\"proper\",\"type\":\"string\"},{\"name\":\"reciprocity\",\"type\":\"string\"},{\"name\":\"tense\",\"type\":\"string\"},{\"name\":\"voice\",\"type\":\"string\"},{\"name\":\"headTokenIndex\",\"type\":\"int\"},{\"name\":\"label\",\"type\":\"int\"},{\"name\":\"lemma\",\"type\":\"string\"}]}}}]}"
+                    }
+                ],
+                "type": "transform",
+                "label": "JSONFormatter",
+                "icon": "icon-jsonformatter"
+            },
+            {
+                "name": "File2",
+                "plugin": {
+                    "name": "File",
+                    "type": "batchsink",
+                    "label": "File2",
+                    "artifact": {
+                        "name": "core-plugins",
+                        "version": "2.3.4",
+                        "scope": "SYSTEM"
+                    },
+                    "properties": {
+                        "suffix": "yyyy-MM-dd-HH-mm",
+                        "format": "json",
+                        "schema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"json\",\"type\":\"string\"}]}",
+                        "referenceName": "Results",
+                        "path": "${OUTPUT_FILE}"
+                    }
+                },
+                "outputSchema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"json\",\"type\":\"string\"}]}",
+                "inputSchema": [
+                    {
+                        "name": "JSONFormatter",
+                        "schema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"json\",\"type\":\"string\"}]}"
+                    }
+                ],
+                "type": "batchsink",
+                "label": "File2",
+                "icon": "icon-file"
+            }
+        ],
+        "schedule": "0 * * * *",
+        "engine": "spark",
+        "numOfRecordsPreview": 100,
+        "description": "Data Pipeline Application",
+        "maxConcurrentRuns": 1
+    }
+}
